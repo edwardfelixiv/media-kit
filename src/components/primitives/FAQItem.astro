@@ -1,0 +1,63 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+}
+
+const { question, answer } = Astro.props;
+---
+
+<details class="faq-item">
+  <summary>
+    <span class="question">{question}</span>
+    <span class="icon" aria-hidden="true">+</span>
+  </summary>
+  <p class="answer">{answer}</p>
+</details>
+
+<style>
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-6) 0;
+  }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 500;
+    color: var(--text);
+    font-size: 1.125rem;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .icon {
+    font-size: 1.5rem;
+    color: var(--accent);
+    transition: transform 200ms ease;
+    flex-shrink: 0;
+  }
+  details[open] .icon { transform: rotate(45deg); }
+  .answer {
+    color: var(--text-muted);
+    margin-top: var(--space-4);
+    line-height: 1.7;
+  }
+
+  @media print {
+    /* Force open in print */
+    .faq-item { padding: var(--space-3) 0; }
+    .icon { display: none; }
+    .answer { display: block !important; margin-top: var(--space-2); }
+  }
+</style>
+
+<script>
+  // Force-open all FAQs when print is triggered, so the print PDF shows everything.
+  if (typeof window !== "undefined") {
+    window.addEventListener("beforeprint", () => {
+      document.querySelectorAll<HTMLDetailsElement>(".faq-item").forEach((d) => (d.open = true));
+    });
+  }
+</script>
