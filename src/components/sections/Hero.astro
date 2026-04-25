@@ -1,0 +1,83 @@
+---
+import { site } from "../../data/site";
+import { portfolio } from "../../data/portfolio";
+import SampleThumbnail from "../primitives/SampleThumbnail.astro";
+
+const heroSamples = portfolio.slice(0, 3);
+---
+
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>{site.name}</h1>
+        <p class="tagline">{site.tagline}</p>
+        <p class="system-summary">{site.systemSummary}</p>
+        <div class="cta-row">
+          <a href={site.contact.calendly} class="cta-primary" target="_blank" rel="noopener noreferrer">Book an intro call</a>
+          <a href={site.pdfUrl} class="cta-secondary download-pdf-btn" download>Download PDF</a>
+        </div>
+      </div>
+      <div class="hero-samples">
+        {heroSamples.map((sample) => <SampleThumbnail sample={sample} compact />)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding: var(--space-24) 0; border-top: none; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+  .hero-text h1 {
+    font-size: var(--text-hero);
+    line-height: 1.05;
+    margin-bottom: var(--space-6);
+  }
+  .tagline {
+    font-size: 1.25rem;
+    color: var(--text);
+    margin-bottom: var(--space-6);
+    font-weight: 500;
+  }
+  .system-summary {
+    color: var(--text-muted);
+    margin-bottom: var(--space-8);
+    line-height: 1.6;
+  }
+  .cta-row {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .cta-primary, .cta-secondary {
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: var(--text-body);
+  }
+  .cta-primary {
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+  .cta-primary:hover { background: var(--accent-hover); color: #FFFFFF; }
+  .cta-secondary {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .cta-secondary:hover { background: var(--surface-elevated); color: var(--text); }
+  .hero-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: var(--space-12); }
+  }
+</style>
