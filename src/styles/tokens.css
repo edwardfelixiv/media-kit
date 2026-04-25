@@ -1,0 +1,58 @@
+:root {
+  /* Color — dark theme (web default) */
+  --bg: #0B0E12;
+  --surface: #14181F;
+  --surface-elevated: #1A1F28;
+  --border: #2A313D;
+  --text: #F4F5F7;
+  --text-muted: #9AA3AF;
+  --text-subtle: #6B7280;
+  --accent: #2563EB;
+  --accent-hover: #1D4ED8;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --text-hero: clamp(2.5rem, 6vw, 4.5rem);
+  --text-h1: clamp(1.875rem, 4vw, 2.5rem);
+  --text-h2: 1.5rem;
+  --text-h3: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+
+  /* Spacing — 8px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Layout */
+  --max-width: 1100px;
+  --content-width: 720px;
+}
+
+/* Theme inversion for print (light) */
+@media print {
+  :root {
+    --bg: #FFFFFF;
+    --surface: #F7F8FA;
+    --surface-elevated: #F7F8FA;
+    --border: #D1D5DB;
+    --text: #0B0E12;
+    --text-muted: #4B5563;
+    --text-subtle: #6B7280;
+    --accent: #2563EB;
+    --accent-hover: #1D4ED8;
+  }
+}
