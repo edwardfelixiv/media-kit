@@ -1,0 +1,53 @@
+---
+import SectionHeader from "../primitives/SectionHeader.astro";
+import { process } from "../../data/process";
+---
+
+<section id="process">
+  <div class="container">
+    <SectionHeader
+      eyebrow="Process"
+      title="How working with me actually goes."
+      subtitle="No mystery, no agency theater. Five steps from signed to first video shipped."
+    />
+    <div class="content">
+      {process.map((step) => (
+        <article class="process-step">
+          <div class="head">
+            <span class="number">{step.number}</span>
+            <h3>{step.title}</h3>
+            <span class="duration">{step.duration}</span>
+          </div>
+          <p>{step.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-step {
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .process-step:last-child { border-bottom: none; }
+  .head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .number {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: var(--text-small);
+  }
+  h3 { font-size: 1.25rem; margin: 0; flex: 1; }
+  .duration {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    font-family: var(--font-mono);
+  }
+  p { color: var(--text-muted); }
+</style>
