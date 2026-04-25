@@ -1,0 +1,27 @@
+---
+import WebLayout from "../../components/layout/WebLayout.astro";
+import Hero from "../../components/sections/Hero.astro";
+import System from "../../components/sections/System.astro";
+import Deliverables from "../../components/sections/Deliverables.astro";
+import Pricing from "../../components/sections/Pricing.astro";
+import Portfolio from "../../components/sections/Portfolio.astro";
+import ChannelProof from "../../components/sections/ChannelProof.astro";
+import Process from "../../components/sections/Process.astro";
+import About from "../../components/sections/About.astro";
+import FAQ from "../../components/sections/FAQ.astro";
+import Contact from "../../components/sections/Contact.astro";
+import { site } from "../../data/site";
+---
+
+<WebLayout title={`${site.name} — Media Kit`}>
+  <Hero />
+  <System />
+  <Deliverables />
+  <Pricing />
+  <Portfolio />
+  <ChannelProof />
+  <Process />
+  <About />
+  <FAQ />
+  <Contact />
+</WebLayout>
