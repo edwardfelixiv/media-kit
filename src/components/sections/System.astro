@@ -1,0 +1,97 @@
+---
+import SectionHeader from "../primitives/SectionHeader.astro";
+import PipelineStep from "../primitives/PipelineStep.astro";
+---
+
+<section id="system">
+  <div class="container">
+    <SectionHeader
+      eyebrow="The system"
+      title="A production pipeline, not a freelancer."
+      subtitle="Five tools, orchestrated end-to-end. The same pipeline runs for every video — output is consistent, costs are predictable, quality is gated at every handoff."
+    />
+    <div class="pipeline-flow">
+      <PipelineStep
+        number="01"
+        icon="⚙"
+        tool="Make.com"
+        role="Orchestration"
+        description="Triggers the pipeline, routes data, packages deliverables."
+      />
+      <div class="arrow" aria-hidden="true">→</div>
+      <PipelineStep
+        number="02"
+        icon="✎"
+        tool="Claude API"
+        role="Scriptwriting"
+        description="Drafts long-form scripts and Shorts copy in your voice."
+      />
+      <div class="arrow" aria-hidden="true">→</div>
+      <PipelineStep
+        number="03"
+        icon="♪"
+        tool="ElevenLabs"
+        role="Voiceover"
+        description="Generates studio-quality narration in a chosen voice."
+      />
+      <div class="arrow" aria-hidden="true">→</div>
+      <PipelineStep
+        number="04"
+        icon="▶"
+        tool="InVideo AI"
+        role="Visual assembly"
+        description="Renders the visual track with branded captions and motion."
+      />
+      <div class="arrow" aria-hidden="true">→</div>
+      <PipelineStep
+        number="05"
+        icon="✓"
+        tool="Delivery"
+        role="QA + handoff"
+        description="Final QA pass; files land in your shared folder."
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .pipeline-flow {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-2);
+    flex-wrap: nowrap;
+  }
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-subtle);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    padding: 0 var(--space-1);
+  }
+
+  /* Mobile + print: stack vertically with downward arrows */
+  @media (max-width: 900px) {
+    .pipeline-flow {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .arrow {
+      transform: rotate(90deg);
+      padding: var(--space-2) 0;
+    }
+  }
+
+  @media print {
+    .pipeline-flow {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-3);
+    }
+    .arrow {
+      transform: rotate(90deg);
+      padding: var(--space-1) 0;
+    }
+  }
+</style>
