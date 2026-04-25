@@ -1,0 +1,30 @@
+---
+import SectionHeader from "../primitives/SectionHeader.astro";
+import SampleThumbnail from "../primitives/SampleThumbnail.astro";
+import { portfolio } from "../../data/portfolio";
+---
+
+<section id="portfolio">
+  <div class="container">
+    <SectionHeader
+      eyebrow="Portfolio"
+      title="Capability demonstrations."
+      subtitle="These samples show what the system produces across different industries and content styles. Labeled honestly: these are demos, not paid client work. Real case studies replace them as paying clients ship."
+    />
+    <div class="grid">
+      {portfolio.map((sample) => <SampleThumbnail sample={sample} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-12);
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
