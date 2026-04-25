@@ -1,0 +1,66 @@
+---
+interface Props {
+  number: string;
+  icon: string;        // unicode glyph, no emoji dependence
+  tool: string;
+  role: string;
+  description: string;
+}
+
+const { number, icon, tool, role, description } = Astro.props;
+---
+
+<article class="pipeline-step">
+  <div class="step-icon" aria-hidden="true">{icon}</div>
+  <div class="step-number">{number}</div>
+  <code class="step-tool">{tool}</code>
+  <div class="step-role">{role}</div>
+  <p class="step-description">{description}</p>
+</article>
+
+<style>
+  .pipeline-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .step-icon {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+  }
+  .step-number {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: var(--text-subtle);
+  }
+  .step-tool {
+    font-family: var(--font-mono);
+    background: var(--surface-elevated);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: 0.9em;
+    color: var(--text);
+  }
+  .step-role {
+    font-size: var(--text-small);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .step-description {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    margin-top: var(--space-1);
+  }
+</style>
