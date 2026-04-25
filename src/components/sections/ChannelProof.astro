@@ -1,0 +1,187 @@
+---
+import SectionHeader from "../primitives/SectionHeader.astro";
+import { channel } from "../../data/channel";
+
+const { stats } = channel;
+const formatNumber = (n: number) => new Intl.NumberFormat("en-US").format(n);
+const allZero =
+  stats.subscribers === 0 && stats.videosPublished === 0 && stats.totalViews === 0;
+---
+
+<section
+  id="channel"
+  data-channel-section
+  data-initial-hidden={allZero ? "true" : "false"}
+  style={allZero ? "display: none" : ""}
+>
+  <div class="container">
+    <SectionHeader
+      eyebrow="Channel as proof"
+      title="Live working demo."
+      subtitle="Our YouTube channel runs the exact same pipeline you'd buy. Real videos, real numbers."
+    />
+    <div class="stats-card">
+      <button
+        type="button"
+        class="stat"
+        data-stat="subscribers"
+        data-default={stats.subscribers}
+        title="Click to edit (saved to your browser)"
+      >
+        <span class="number">{formatNumber(stats.subscribers)}</span>
+        <span class="label">Subscribers</span>
+      </button>
+      <button
+        type="button"
+        class="stat"
+        data-stat="videosPublished"
+        data-default={stats.videosPublished}
+        title="Click to edit (saved to your browser)"
+      >
+        <span class="number">{formatNumber(stats.videosPublished)}</span>
+        <span class="label">Videos published</span>
+      </button>
+      <button
+        type="button"
+        class="stat"
+        data-stat="totalViews"
+        data-default={stats.totalViews}
+        title="Click to edit (saved to your browser)"
+      >
+        <span class="number">{formatNumber(stats.totalViews)}</span>
+        <span class="label">Total views</span>
+      </button>
+    </div>
+    <p class="cta-link">
+      <a href={channel.channelUrl} target="_blank" rel="noopener noreferrer">
+        Visit channel: {channel.handle} →
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .stats-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    margin-bottom: var(--space-6);
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+  .stat:hover { border-color: var(--border); background: var(--surface-elevated); }
+  .stat:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .stat .number {
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: var(--text);
+    font-family: var(--font-mono);
+    line-height: 1;
+  }
+  .stat .label {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .cta-link a { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .stats-card { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    /* Disable click affordances; show as static stat block */
+    .stat { cursor: default; border-color: transparent; }
+    .stat:hover { background: transparent; border-color: transparent; }
+  }
+</style>
+
+<script>
+  // Channel stats with localStorage-backed click-to-edit.
+  // - Reads `evai-channel-stats` on load and overrides server-rendered values.
+  // - Toggles section visibility based on combined values (server defaults OR local overrides).
+  // - Clicking a stat prompts for a new value; saved per-browser.
+  const STORAGE_KEY = "evai-channel-stats";
+
+  type StatKey = "subscribers" | "videosPublished" | "totalViews";
+
+  function loadOverrides(): Partial<Record<StatKey, number>> {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch {
+      return {};
+    }
+  }
+
+  function saveOverrides(overrides: Partial<Record<StatKey, number>>) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(overrides));
+  }
+
+  function format(n: number): string {
+    return new Intl.NumberFormat("en-US").format(n);
+  }
+
+  function applyAndToggle() {
+    const section = document.querySelector<HTMLElement>("[data-channel-section]");
+    if (!section) return;
+
+    const overrides = loadOverrides();
+    const stats = section.querySelectorAll<HTMLElement>("[data-stat]");
+    let anyNonZero = false;
+
+    stats.forEach((el) => {
+      const key = el.dataset.stat as StatKey;
+      const fallback = Number(el.dataset.default || 0);
+      const value = key in overrides ? Number(overrides[key]) : fallback;
+      const numEl = el.querySelector<HTMLElement>(".number");
+      if (numEl) numEl.textContent = format(value);
+      if (value > 0) anyNonZero = true;
+    });
+
+    section.style.display = anyNonZero ? "" : "none";
+  }
+
+  function bindClickEditing() {
+    document.querySelectorAll<HTMLElement>("[data-stat]").forEach((el) => {
+      el.addEventListener("click", () => {
+        const key = el.dataset.stat as StatKey;
+        const current = el.querySelector(".number")?.textContent || "0";
+        const input = window.prompt(
+          `Enter new value for "${key}" (saved to this browser only):`,
+          current.replace(/,/g, "")
+        );
+        if (input === null) return;
+        const num = Number(input.replace(/[^0-9]/g, ""));
+        if (Number.isNaN(num)) return;
+        const overrides = loadOverrides();
+        overrides[key] = num;
+        saveOverrides(overrides);
+        applyAndToggle();
+      });
+    });
+  }
+
+  applyAndToggle();
+  bindClickEditing();
+</script>
