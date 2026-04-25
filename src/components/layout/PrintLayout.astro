@@ -1,0 +1,70 @@
+---
+import "../../styles/tokens.css";
+import "../../styles/base.css";
+import "../../styles/print.css";
+import { site } from "../../data/site";
+
+const lastUpdated = new Date().toISOString().split("T")[0];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{site.name} — Media Kit (Print)</title>
+  <style>
+    /* Force print mode for screen preview of the print route */
+    body { background: #FFFFFF; color: #0B0E12; }
+  </style>
+</head>
+<body>
+  <!-- Cover page -->
+  <div class="print-cover">
+    <h1>{site.name}</h1>
+    <p class="tagline">{site.tagline}</p>
+    <p class="label">Media Kit</p>
+    <div class="meta">
+      <p>Last updated: {lastUpdated}</p>
+      <p>{site.contact.email}</p>
+      <p>{site.url}</p>
+    </div>
+  </div>
+
+  <!-- Body content (slot receives the section components) -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- Running footer rendered on every page via CSS @page rules below.
+       Browsers don't support running elements consistently; instead we lean on
+       Playwright's headerTemplate/footerTemplate (configured in scripts/generate-pdf.mjs). -->
+</body>
+</html>
+
+<style is:global>
+  /* Print-route screen preview should look like the printed page */
+  body {
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: 0.75in;
+    background: #FFFFFF;
+    color: #0B0E12;
+  }
+  /* Override dark theme on the print route screen view */
+  :root {
+    --bg: #FFFFFF;
+    --surface: #F7F8FA;
+    --surface-elevated: #F7F8FA;
+    --border: #D1D5DB;
+    --text: #0B0E12;
+    --text-muted: #4B5563;
+    --text-subtle: #6B7280;
+  }
+  /* Page break between sections in screen preview */
+  section {
+    border-top: 1px solid var(--border);
+    padding: var(--space-12) 0;
+  }
+  section:first-of-type { border-top: none; }
+</style>
