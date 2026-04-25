@@ -1,0 +1,122 @@
+---
+import type { PortfolioSample } from "../../data/portfolio";
+
+interface Props {
+  sample: PortfolioSample;
+  compact?: boolean;
+}
+
+const { sample, compact = false } = Astro.props;
+---
+
+<article class={`sample-thumbnail ${compact ? "compact" : ""}`}>
+  <a href={sample.watchUrl} target="_blank" rel="noopener noreferrer" class="thumb-link">
+    <img src={sample.thumbnail} alt={`${sample.client} sample thumbnail`} loading="lazy" />
+    <div class="play-icon" aria-hidden="true">▶</div>
+  </a>
+  {!compact && (
+    <div class="meta">
+      <p class="label">{sample.label}</p>
+      <h4>{sample.client}</h4>
+      <p class="industry">{sample.industry}</p>
+      <p class="title">{sample.title}</p>
+      <p class="description">{sample.description}</p>
+      <div class="deliverables">
+        <h5>What was delivered</h5>
+        <ul>
+          {sample.deliverables.map((d) => <li>{d}</li>)}
+        </ul>
+      </div>
+    </div>
+  )}
+  {compact && (
+    <div class="meta-compact">
+      <p class="client">{sample.client}</p>
+      <p class="industry">{sample.industry}</p>
+    </div>
+  )}
+</article>
+
+<style>
+  .sample-thumbnail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .thumb-link {
+    position: relative;
+    display: block;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface);
+    aspect-ratio: 16 / 9;
+  }
+  .thumb-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    padding-left: 4px;
+  }
+  .label {
+    font-size: var(--text-small);
+    color: var(--accent);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  h4 { font-size: 1.25rem; margin-bottom: var(--space-1); }
+  .industry { font-size: var(--text-small); color: var(--text-muted); }
+  .title { font-weight: 500; margin-top: var(--space-2); }
+  .description { color: var(--text-muted); margin-top: var(--space-2); }
+  .deliverables {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+  }
+  .deliverables h5 {
+    font-size: var(--text-small);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-subtle);
+    margin-bottom: var(--space-2);
+    font-weight: 500;
+  }
+  .deliverables ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .deliverables li {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    padding-left: var(--space-4);
+    position: relative;
+    margin-bottom: 0;
+  }
+  .deliverables li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .meta-compact .client { font-weight: 500; }
+  .meta-compact .industry { font-size: var(--text-small); color: var(--text-muted); }
+</style>
