@@ -1,0 +1,124 @@
+---
+import "../../styles/tokens.css";
+import "../../styles/base.css";
+import "../../styles/print.css";
+import { site } from "../../data/site";
+
+interface Props {
+  title: string;
+  description?: string;
+  showNav?: boolean;
+}
+
+const { title, description = site.tagline, showNav = true } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={site.kitUrl} />
+  <title>{title}</title>
+  <link rel="canonical" href={site.kitUrl} />
+</head>
+<body>
+  {showNav && (
+    <nav class="web-nav">
+      <div class="container nav-inner">
+        <a href="/media-kit" class="brand">{site.name}</a>
+        <ul class="nav-links">
+          <li><a href="#system">System</a></li>
+          <li><a href="#deliverables">Deliverables</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <a href={site.pdfUrl} class="download-pdf-btn" download>Download PDF</a>
+      </div>
+    </nav>
+  )}
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="web-footer">
+    <div class="container">
+      <p>© {new Date().getFullYear()} {site.name}</p>
+      <p><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
+    </div>
+  </footer>
+
+  <!-- Cloudflare Web Analytics — token added during deployment task -->
+</body>
+</html>
+
+<style>
+  .web-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 14, 18, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    gap: var(--space-6);
+  }
+  .brand {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 1.0625rem;
+  }
+  .nav-links {
+    display: flex;
+    gap: var(--space-6);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nav-links li { margin: 0; }
+  .nav-links a {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+  }
+  .nav-links a:hover { color: var(--text); }
+  .download-pdf-btn {
+    background: var(--accent);
+    color: #FFFFFF;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-small);
+    font-weight: 500;
+  }
+  .download-pdf-btn:hover { background: var(--accent-hover); color: #FFFFFF; }
+
+  .web-footer {
+    border-top: 1px solid var(--border);
+    padding: var(--space-12) 0;
+    margin-top: var(--space-24);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+  }
+  .web-footer .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+  }
+</style>
