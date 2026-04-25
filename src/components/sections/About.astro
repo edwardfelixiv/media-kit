@@ -1,0 +1,33 @@
+---
+import SectionHeader from "../primitives/SectionHeader.astro";
+import { site } from "../../data/site";
+---
+
+<section id="about">
+  <div class="container">
+    <SectionHeader
+      eyebrow="About"
+      title={`About ${site.founder.name}`}
+    />
+    <div class="content about-body">
+      <p>
+        I built Escape Velocity AI because the system I needed didn't exist yet. I wanted a faceless YouTube channel — without a camera, without an editing rig, without trading my evenings for views. Every "AI content tool" I tried promised end-to-end production and shipped something I wouldn't publish under my own name.
+      </p>
+      <p>
+        So I built the pipeline myself. Make.com orchestrates the handoffs. Claude writes the scripts. ElevenLabs handles the voice. InVideo AI does the visual assembly. Every step has a QA gate I designed to catch the failure modes I kept hitting. My own faceless channel is the live working demo, running the exact same pipeline you'd buy.
+      </p>
+      <p>
+        What I sell is the system, not my time. I run it end-to-end myself, which keeps quality where it is — but it also caps how many channels I can take on. If you're reading this kit, you're early. The earlier you are, the more I can shape the pipeline around your specific business.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-body p {
+    margin-bottom: var(--space-4);
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .about-body p:last-child { margin-bottom: 0; }
+</style>
