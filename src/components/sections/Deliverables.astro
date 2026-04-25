@@ -1,0 +1,53 @@
+---
+import SectionHeader from "../primitives/SectionHeader.astro";
+
+const deliverables = [
+  { title: "Long-form video", description: "8–12 minute YouTube uploads with full audio mix, captions burned in optional, ready for direct upload.", icon: "▶" },
+  { title: "Shorts", description: "Vertical 30–60 second cuts from each long-form, optimized for YouTube Shorts, TikTok, and Reels.", icon: "▮" },
+  { title: "Captions", description: "Both burned-in (SRT) and uploaded-separately formats. Helps watch time and accessibility.", icon: "T" },
+  { title: "Metadata", description: "Title, description, tags, timestamps, end-screen suggestions. Search-optimized.", icon: "#" },
+  { title: "Thumbnails", description: "Custom thumbnail per video, A/B variants on Growth and Premium. Optimized for click-through.", icon: "▭" },
+  { title: "Content calendar", description: "30-day topic plan with hooks, search intent, and posting cadence.", icon: "📅" },
+];
+---
+
+<section id="deliverables">
+  <div class="container">
+    <SectionHeader
+      eyebrow="What you get"
+      title="Everything needed to publish, every month."
+      subtitle="No half-deliverables, no 'we'll send the captions next week.' One delivery, one upload, done."
+    />
+    <div class="grid">
+      {deliverables.map((d) => (
+        <article class="deliverable">
+          <div class="icon">{d.icon}</div>
+          <h3>{d.title}</h3>
+          <p>{d.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+  .deliverable {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+  .icon {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: var(--space-3);
+  }
+  h3 { font-size: 1.125rem; margin-bottom: var(--space-2); }
+  p { color: var(--text-muted); font-size: var(--text-small); }
+</style>
