@@ -1,0 +1,17 @@
+---
+import SectionHeader from "../primitives/SectionHeader.astro";
+import FAQItem from "../primitives/FAQItem.astro";
+import { faq } from "../../data/faq";
+---
+
+<section id="faq">
+  <div class="container">
+    <SectionHeader
+      eyebrow="FAQ"
+      title="Questions prospects ask."
+    />
+    <div class="content">
+      {faq.map((entry) => <FAQItem question={entry.question} answer={entry.answer} />)}
+    </div>
+  </div>
+</section>
