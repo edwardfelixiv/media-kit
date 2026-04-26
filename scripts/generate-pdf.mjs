@@ -21,6 +21,9 @@ console.log("Starting Astro preview server...");
 const server = spawn("npx", ["astro", "preview", "--port", String(PORT)], {
   stdio: ["ignore", "pipe", "pipe"],
   shell: process.platform === "win32",
+  // detached=true creates a new process group on Linux so we can kill the
+  // entire tree (npx → astro → node) with process.kill(-pid) below.
+  detached: process.platform !== "win32",
 });
 
 server.stdout.on("data", (chunk) => process.stdout.write(`[astro] ${chunk}`));
@@ -74,6 +77,19 @@ await page.pdf({
 });
 
 await browser.close();
-server.kill();
+
+// Kill the preview server and its entire process group (npx → astro → node).
+// On Linux, detached:true gave the server its own pgid, so -pid kills the tree.
+// On Windows, a plain server.kill() is sufficient.
+try {
+  if (process.platform !== "win32" && server.pid) {
+    process.kill(-server.pid, "SIGKILL");
+  } else {
+    server.kill();
+  }
+} catch (_) {
+  // Already dead — that's fine.
+}
 
 console.log("Done.");
+process.exit(0);
